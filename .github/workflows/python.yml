@@ -55,6 +55,11 @@ jobs:
       run: |
         sudo apt install libboost-tools-dev libboost-python-dev libboost-dev libboost-system-dev python3 python3-setuptools libssl-dev
 
+    - name: dependencies (windows)
+      if: runner.os == 'Windows'
+      run: |
+        python -m pip install --upgrade setuptools
+
     - name: install boost (windows)
       if: runner.os == 'Windows'
       shell: cmd
