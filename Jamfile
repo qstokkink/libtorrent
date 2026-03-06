@@ -729,23 +729,11 @@ lib z : : <link>shared <name>z ;
 # windows to access the system certificate store, for authenticating trackers
 alias ssl-deps : advapi32 user32 shell32 gdi32 crypt32 ;
 
-# pre OpenSSL 1.1 windows
-lib crypto : ssl-deps : <target-os>windows <openssl-version>pre1.1 <name>libeay32
-	<conditional>@openssl-lib-path : : <conditional>@openssl-include-path ;
-lib ssl : ssl-deps : <target-os>windows <openssl-version>pre1.1 <name>ssleay32
-	<use>crypto <conditional>@openssl-lib-path : : <conditional>@openssl-include-path ;
-
 # OpenSSL 1.1+ windows
-lib crypto : ssl-deps : <target-os>windows <openssl-version>1.1 <name>libcrypto
+lib crypto : ssl-deps : <target-os>windows  <name>libcrypto <link>static
 	<conditional>@openssl-lib-path : : <conditional>@openssl-include-path ;
-lib ssl : ssl-deps : <target-os>windows <openssl-version>1.1 <name>libssl <use>crypto
+lib ssl : ssl-deps : <target-os>windows <name>libssl <use>crypto <link>static
 	<conditional>@openssl-lib-path : : <conditional>@openssl-include-path ;
-
-# generic OpenSSL
-lib crypto : : <name>crypto <use>z <conditional>@openssl-lib-path : :
-	<conditional>@openssl-include-path ;
-lib ssl : : <name>ssl <use>crypto <conditional>@openssl-lib-path : :
-	<conditional>@openssl-include-path ;
 
 lib gnutls : : <name>gnutls <conditional>@gnutls-lib-path : :
 	<conditional>@gnutls-include-path ;
